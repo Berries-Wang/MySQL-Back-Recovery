@@ -1,0 +1,80 @@
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+This is a release of MySQL, an SQL database server.
+
+License information can be found in the LICENSE file.
+
+This distribution may include materials developed by third parties.
+For license and attribution notices for these materials,
+please refer to the LICENSE file.
+
+For further information on MySQL or additional documentation, visit
+  http://dev.mysql.com/doc/
+
+For additional downloads and the source of MySQL, visit
+  http://dev.mysql.com/downloads/
+
+MySQL is brought to you by the MySQL team at Oracle.
+
+
+
+## Build
+```shell
+ cd percona-xtrabackup
+ mkdir build & cd build
+ cmake -DWITH_BOOST=PATH-TO-BOOST-LIBRARY -DDOWNLOAD_BOOST=ON -DBUILD_CONFIG=xtrabackup_release -DWITH_DEBUG=1  -DWITH_MAN_PAGES=ON  ..
+```
+
+### 编译问题
+##### Cannot find gcrypt.h in /usr/include;/usr/local/include;/opt/local/include.
+```txt
+  Q：
+     CMake Error at cmake/gcrypt.cmake:25 (MESSAGE):
+     Cannot find gcrypt.h in /usr/include;/usr/local/include;/opt/local/include.
+     You can use libgcrypt-config --cflags to get the necessary path and pass it
+     to CMake with -DGCRYPT_INCLUDE_PATH=<path>
+   Call Stack (most recent call first):
+     storage/innobase/xtrabackup/src/xbcloud/CMakeLists.txt:29 (FIND_GCRYPT)
+   
+   A：
+   sudo apt-get install libgcrypt20-dev
+```
+
+##### Could not find libev on your system
+```txt
+Q:
+   CMake Error at cmake/libev.cmake:23 (MESSAGE):
+   Could not find libev on your system
+ Call Stack (most recent call first):
+   storage/innobase/xtrabackup/src/xbcloud/CMakeLists.txt:31 (FIND_EV)
+
+
+A: 
+  sudo apt-get install libev-dev
+```
+
+##### aio is required on Linux, you need to install the required library:
+```txt
+  Q: 
+
+  CMake Error at cmake/build_configurations/xtrabackup_release.cmake:41 (MESSAGE):
+
+          aio is required on Linux, you need to install the required library:
+
+
+            Debian/Ubuntu:              apt-get install libaio-dev
+            RedHat/Fedora/Oracle Linux: yum install libaio-devel
+            SuSE:                       zypper install libaio-devel
+```
+
+#####   Not building keyring_vault, could not find library: CURL
+```txt
+Q:
+   CMake Error at plugin/keyring_vault/CMakeLists.txt:15 (message):
+     Not building keyring_vault, could not find library: CURL
+   Call Stack (most recent call first):
+     plugin/keyring_vault/CMakeLists.txt:20 (CHECK_IF_LIB_FOUND)
+
+A:
+     sudo apt-get install libcurl4-openssl-dev
+```
