@@ -11,7 +11,7 @@ echo '当前目录: '  `pwd`
 cmake \
      -DWITH_DEBUG=1 \
      -DWITH_BOOST=${CURR_DIR}/../libs/boost_1_59_0 \
-     ../000.percona-xtrabackup-release-2.4.29 
+     ../Percona-Xtrabackup-RELEASE 
 
 # 安装到指定目录
 INSTALL_DIR="${CURR_DIR}/../001.build-output/XtraBackUp_Install_Dir"
